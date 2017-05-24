@@ -16,10 +16,13 @@ const jsonParser = bodyParser.json();
 
 app.use(logger('common'));
 app.use(jsonParser);
-
 app.use("/blog-posts", blogRouter);
 
-console.log('is any of this working?');
+BlogPosts.create({
+  title: "some title",
+  content: "this is where i complain about my life",
+  author: "obama",
+});
 
 blogRouter.get("/", (req, res) => {
   console.log('heard ya!');
@@ -27,8 +30,7 @@ blogRouter.get("/", (req, res) => {
 });
 
 blogRouter.post("/", (req, res)=> {
-  // BlogPosts.create(req.body.title, req.body.content, req.body.author, req.body.publishDate);
-  console.log(req);
+  BlogPosts.create(req.body.title, req.body.content, req.body.author, req.body.publishDate);
   res.status(201).end();
 });
 
@@ -38,7 +40,13 @@ blogRouter.delete("/:id", (req, res)=>{
 });
 
 blogRouter.put("/:id", (req, res)=>{
-  BlogPosts.update({title: req.body.title, content: req.body.content, author: req.body.author, publishDate: req.body.publishDate, id: req.params.id});
+  BlogPosts.update({
+    title: req.body.title, 
+    content: req.body.content, 
+    author: req.body.author, 
+    publishDate: req.body.publishDate, 
+    id: req.params.id
+  });
   res.status(204).end();
 });
 
